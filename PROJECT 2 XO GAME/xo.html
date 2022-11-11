@@ -54,7 +54,7 @@
               <td><button onclick="click_cell(9)" id="cell9" class="square"></button></td>
             </tr>
     </table><br><br>
-    <button onclick="playAgain()" class="button">Play Again</button>
+    <button onclick="play_again()" class="button">Play Again</button>
     <p id="the-winner"></p>
     <script>
         const board = [" ", " ", " ", 
@@ -67,7 +67,7 @@
                            playerWon: "Player Won The Game !!...Well Done !",
                            computerWon: "Computer Won The Game...Too Bad",
                            teko:"It's A Tie !"};
-        function computerTurn(){
+        function computer_turn(){
             do {random = Math.floor(Math.random()*9) + 1}  // between (1 to 9)
             while(board[random - 1] != " ")
 
@@ -124,7 +124,7 @@
                    }
                }
                 else {
-                    computerTurn()
+                    computer_turn()
                     if (check_winner(game_data.computer)){
                         $(`#the-winner`).text(game_data.computerWon)
                         !game_data.game_over;
@@ -132,16 +132,15 @@
                 }
             }  
         }
-        function cleanUp(){
+       
+       function play_again(){
             for (let i = 1; i <= 9; i++){
-            $(`#cell${i}`).text(board[i - 1] = " ")
-            } 
-            $(`#the-winner`).text(" ");
-        }
+               $(`#cell${i}`).text(board[i - 1] = " ")
+               } 
+               $(`#the-winner`).text(" ");
 
-       function playAgain(){
-        cleanUp();
-        click_cell();
+          click_cell();
     }
-
-    playAgain()
+    </script> 
+</body>
+</html>
