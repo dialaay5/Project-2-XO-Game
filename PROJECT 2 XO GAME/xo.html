@@ -134,12 +134,7 @@
         }
        document.getElementById("reset").addEventListener("click", play_again);
        function play_again(){
-            for (let i = 1; i <= 9; i++){
-               $(`#cell${i}`).text(board[i - 1] = " ")
-               } 
-               $(`#the-winner`).text(" ");
-
-          click_cell();
+            location.reload() // אחרי סיום המשחק תעשה איפוס ולאחר מכן תטען את העמוד מחדש
     }
     </script> 
 </body>
