@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <title>XO GAME</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <style>
         body{background-image: url("image/background.jpg");}
-
         .square{width: 130px; 
                height:130px;
                border: 3px solid #000000;
@@ -14,14 +15,11 @@
                font-family: cursive;
                border-radius: 10px;
                 }
-        
         table{margin: auto;}
-
         h1, h2{color: rgb(3, 3, 151);
            font-family:cursive;
            font-size:280%; 
            text-align: center;}
-
         .button{border: 5px solid rgb(0, 0, 0);
                 margin: auto;
                 display: block;
@@ -29,13 +27,11 @@
                 font-family: cursive;
                 background-color: rgb(255, 30, 30);
                 color: rgb(247, 247, 247);
-                font-size: 20px;}
-
+                font-size: 35px;}
         p{text-align: center;
           font-family:cursive;
           font-size: 40px;
-          color: rgb(234, 25, 25);}
-        
+          color: rgb(234, 25, 25);}  
     </style>
 </head>
 <body>
@@ -43,22 +39,22 @@
     <h2>Let's Start</h2>
     <table id="myboard">
             <tr>
-                <td><button onclick="click_to_game(1)" id="cell1" class="square"></button></td>
-                <td><button onclick="click_to_game(2)" id="cell2" class="square"></button></td>
-                <td><button onclick="click_to_game(3)" id="cell3" class="square"></button></td>
+                <td><button onclick="click_cell(1)" id="cell1" class="square"></button></td>
+                <td><button onclick="click_cell(2)" id="cell2" class="square"></button></td>
+                <td><button onclick="click_cell(3)" id="cell3" class="square"></button></td>
             </tr>
             <tr>
-                <td><button onclick="click_to_game(4)" id="cell4" class="square"></button></td>
-                <td><button onclick="click_to_game(5)" id="cell5" class="square"></button></td>
-                <td><button onclick="click_to_game(6)" id="cell6" class="square"></button></td>
+                <td><button onclick="click_cell(4)" id="cell4" class="square"></button></td>
+                <td><button onclick="click_cell(5)" id="cell5" class="square"></button></td>
+                <td><button onclick="click_cell(6)" id="cell6" class="square"></button></td>
             </tr>
             <tr>
-              <td><button onclick="click_to_game(7)" id="cell7" class="square"></button></td>
-              <td><button onclick="click_to_game(8)" id="cell8" class="square"></button></td>
-              <td><button onclick="click_to_game(9)" id="cell9" class="square"></button></td>
+              <td><button onclick="click_cell(7)" id="cell7" class="square"></button></td>
+              <td><button onclick="click_cell(8)" id="cell8" class="square"></button></td>
+              <td><button onclick="click_cell(9)" id="cell9" class="square"></button></td>
             </tr>
-    </table><br>
-    <button onclick="restartGame()" class="button">RESTART</button>
+    </table><br><br>
+    <button onclick="playAgain()" class="button">Play Again</button>
     <p id="the-winner"></p>
     <script>
         const board = [" ", " ", " ", 
@@ -68,27 +64,24 @@
         const game_data = {player: "X",
                            computer: "O",
                            game_over: false,
-                           playerWon: "PLAYER WON THE GAME!!...WELL DONE!",
-                           computerWon: "COMPUTER WON THE GAME...Too bad",
-                           teko:"TEKO"};
-
+                           playerWon: "Player Won The Game !!...Well Done !",
+                           computerWon: "Computer Won The Game...Too Bad",
+                           teko:"It's A Tie !"};
         function computerTurn(){
             do {random = Math.floor(Math.random()*9) + 1}  // between (1 to 9)
             while(board[random - 1] != " ")
 
                 if (board[random - 1] == " " ){
-                    document.getElementById(`cell${random}`).innerHTML = game_data.computer
+                    $(`#cell${random}`).text(game_data.computer)
                     board[random - 1] = game_data.computer
                 }
             }
-
         function tableXO_if_full(){
             for(let e of board){
                 if(e == " ") return false;
             }
              return true;  
           }  
-        
         function check_winner(won){
             //[0, 1, 2]
             //[3, 4, 5]
@@ -115,34 +108,40 @@
             }
             return false;  
         }
-
-
-        function click_to_game(i){
-            if(!tableXO_if_full()){
-                board[i - 1] = game_data.player;
-                document.getElementById(`cell${i}`).innerHTML = game_data.player
+        function click_cell(i){
+            if(!tableXO_if_full() && board[i - 1] == " "){
+                board[i - 1] = game_data.player 
+                $(`#cell${i}`).text(game_data.player) 
                 if (check_winner(game_data.player)){
-                    document.getElementById('the-winner').innerHTML += game_data.playerWon;
+                    $(`#the-winner`).text(game_data.playerWon)
                     !game_data.game_over;
                 }
 
                else if(tableXO_if_full()){
                 if(!check_winner(game_data.player) && !check_winner(game_data.computer)){
-                    document.getElementById('the-winner').innerHTML += game_data.teko;
+                    $(`#the-winner`).text(game_data.teko)
                     !game_data.game_over;
                    }
                }
                 else {
                     computerTurn()
                     if (check_winner(game_data.computer)){
-                        document.getElementById('the-winner').innerHTML += game_data.computerWon;
+                        $(`#the-winner`).text(game_data.computerWon)
                         !game_data.game_over;
                     }
                 }
-            }               
+            }  
+        }
+        function cleanUp(){
+            for (let i = 1; i <= 9; i++){
+            $(`#cell${i}`).text(board[i - 1] = " ")
+            } 
+            $(`#the-winner`).text(" ");
         }
 
-    </script>
-    
-</body>
-</html>
+       function playAgain(){
+        cleanUp();
+        click_cell();
+    }
+
+    playAgain()
