@@ -54,7 +54,7 @@
               <td><button onclick="click_cell(9)" id="cell9" class="square"></button></td>
             </tr>
     </table><br><br>
-    <button onclick="play_again()" class="button">Play Again</button>
+    <button id="reset" class="button">Play Again</button>
     <p id="the-winner"></p>
     <script>
         const board = [" ", " ", " ", 
@@ -132,7 +132,7 @@
                 }
             }  
         }
-       
+       document.getElementById("reset").addEventListener("click", play_again);
        function play_again(){
             for (let i = 1; i <= 9; i++){
                $(`#cell${i}`).text(board[i - 1] = " ")
